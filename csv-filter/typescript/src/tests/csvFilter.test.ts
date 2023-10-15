@@ -85,17 +85,35 @@ describe('CSV Filter', () => {
 		expect(result).toEqual([header]);
 	});
 
+	it('excludes lines with both identification numbers fields populated as they are exclusive', () => {
+		const invoiceLine = fileWithOneInvoiceLineHaving('21', '', '790', 'B76430134', '12345678A');
+		const csvFilter = CsvFilter.create([header, invoiceLine]);
+
+		const result = csvFilter.filteredLines;
+
+		expect(result).toEqual([header]);
+	});
+
+	it('excludes lines without identification numbers fields populated as one is required', () => {
+		const invoiceLine = fileWithOneInvoiceLineHaving('21', '', '790', '', '');
+		const csvFilter = CsvFilter.create([header, invoiceLine]);
+
+		const result = csvFilter.filteredLines;
+
+		expect(result).toEqual([header]);
+	});
+
 	function fileWithOneInvoiceLineHaving(
 		vatTax: string = '21',
 		igicTax: string = emptyField,
-		netAmount: string = '790'
+		netAmount: string = '790',
+		cif: string = 'B76430134',
+		nif: string = emptyField
 	): string {
 		const invoiceId = '1';
 		const invoiceDate = '02/05/2019';
 		const grossAmount = '1000';
 		const concept = 'ACER Laptop';
-		const cif = 'B76430134';
-		const nif = emptyField;
 		return [invoiceId, invoiceDate, grossAmount, netAmount, vatTax, igicTax, concept, cif, nif].join(',');
 	}
 });
