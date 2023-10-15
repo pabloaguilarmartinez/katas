@@ -1,5 +1,5 @@
 export class CsvFilter {
-	constructor(private readonly lines: string[]) {}
+	private constructor(private readonly lines: string[]) {}
 
 	static create(lines: string[]) {
 		return new CsvFilter(lines);
