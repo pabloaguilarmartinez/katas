@@ -126,6 +126,14 @@ describe('CSV Filter', () => {
 		expect(result).toEqual([header, invoiceLine4]);
 	});
 
+	it('an empty list will produce an output empty list', () => {
+		const csvFilter = CsvFilter.create([]);
+
+		const result = csvFilter.filteredLines;
+
+		expect(result).toEqual([]);
+	});
+
 	interface FileWithOneInvoiceLineHavingParams {
 		invoiceId?: string;
 		vatTax?: string;
