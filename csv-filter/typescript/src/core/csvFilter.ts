@@ -16,17 +16,19 @@ export class CsvFilter {
 			(vatField.match(decimalRegex) || igicField.match(decimalRegex)) && (!vatField || !igicField);
 		const netAmountField = fields[3];
 		const grossAmountField = fields[2];
-		if (
-			taxFieldsAreMutuallyExclusive &&
-			(this.checkIfNetAmountIsCorrect(netAmountField, grossAmountField, vatField) ||
-				this.checkIfNetAmountIsCorrect(netAmountField, grossAmountField, igicField))
-		) {
+		const netAmountIsWellCalculated =
+			this.checkIfNetAmountIsCorrect(netAmountField, grossAmountField, vatField) ||
+			this.checkIfNetAmountIsCorrect(netAmountField, grossAmountField, igicField);
+		if (taxFieldsAreMutuallyExclusive && netAmountIsWellCalculated) {
 			result.push(this.lines[1]);
 		}
 		return result;
 	}
 
 	private checkIfNetAmountIsCorrect(netAmountField: string, grossAmountField: string, taxField: string): boolean {
-		return parseFloat(netAmountField) === (1 - parseFloat(taxField) / 100) * parseFloat(grossAmountField);
+		const parsedNetAmount = parseFloat(netAmountField);
+		const parsedGrossAmount = parseFloat(grossAmountField);
+		const parsedTax = parseFloat(taxField);
+		return parsedNetAmount === parsedGrossAmount - (parsedTax / 100) * parsedGrossAmount;
 	}
 }

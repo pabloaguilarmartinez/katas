@@ -58,8 +58,26 @@ describe('CSV Filter', () => {
 		expect(result).toEqual([header]);
 	});
 
-	it('excludes lines with net amount calculated incorrectly', () => {
+	it('excludes lines with net amount calculated incorrectly with vat tax', () => {
 		const invoiceLine = fileWithOneInvoiceLineHaving('21', '', '900');
+		const csvFilter = CsvFilter.create([header, invoiceLine]);
+
+		const result = csvFilter.filteredLines;
+
+		expect(result).toEqual([header]);
+	});
+
+	it('allows only the correct lines when the igic tax is applied', () => {
+		const invoiceLine = fileWithOneInvoiceLineHaving('', '7', '930');
+		const csvFilter = CsvFilter.create([header, invoiceLine]);
+
+		const result = csvFilter.filteredLines;
+
+		expect(result).toEqual([header, invoiceLine]);
+	});
+
+	it('excludes lines with miscalculated net amount for igic tax', () => {
+		const invoiceLine = fileWithOneInvoiceLineHaving('', '7', '900');
 		const csvFilter = CsvFilter.create([header, invoiceLine]);
 
 		const result = csvFilter.filteredLines;
