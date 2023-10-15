@@ -11,7 +11,8 @@ export class CsvFilter {
 		const fields = this.lines[1].split(',');
 		const vatField = fields[4];
 		const igicField = fields[5];
-		if ((!vatField || !igicField) && !(!vatField && !igicField)) {
+		const taxFieldsAreMutuallyExclusive = (!vatField || !igicField) && !(!vatField && !igicField);
+		if (taxFieldsAreMutuallyExclusive) {
 			result.push(this.lines[1]);
 		}
 		return result;
