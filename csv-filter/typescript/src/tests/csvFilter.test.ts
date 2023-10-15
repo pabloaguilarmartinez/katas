@@ -13,7 +13,7 @@ describe('CSV Filter', () => {
 	it('allows for correct lines only', () => {
 		const header = 'Num_invoice, Date, Gross, Net, VAT, IGIC, Concept, CIF_customer, NIF_customer';
 		const invoiceLine = '1,02/05/2019,1008,810,19,,ACERLaptop,B76430134,';
-		const csvFilter = new CsvFilter([header, invoiceLine]);
+		const csvFilter = CsvFilter.create([header, invoiceLine]);
 
 		const result = csvFilter.filteredLines;
 
