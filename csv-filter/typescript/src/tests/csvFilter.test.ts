@@ -7,8 +7,16 @@
  6. An empty list will produce an empty output list.
  7. A single line file is incorrect because it has no header.
 * */
+import { CsvFilter } from '../core/csvFilter';
+
 describe('CSV Filter', () => {
-    it('allows for correct lines only', () => {
-        const header = 'Num_invoice, Date, Gross, Net, VAT, IGIC, Concept, CIF_customer, NIF_customer';
-    });
+	it('allows for correct lines only', () => {
+		const header = 'Num_invoice, Date, Gross, Net, VAT, IGIC, Concept, CIF_customer, NIF_customer';
+		const invoiceLine = '1,02/05/2019,1008,810,19,,ACERLaptop,B76430134,';
+		const csvFilter = new CsvFilter([header, invoiceLine]);
+
+		const result = csvFilter.filteredLines;
+
+		expect(result).toEqual([header, invoiceLine]);
+	});
 });
