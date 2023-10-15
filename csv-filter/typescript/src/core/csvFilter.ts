@@ -11,8 +11,7 @@ export class CsvFilter {
 	get filteredLines(): string[] {
 		const header = this.lines[0];
 		const invoices = this.lines.slice(1);
-		const validatedInvoices = this.takeValidInvoices(invoices);
-		return [header].concat(this.takeUniqueInvoices(validatedInvoices));
+		return [header].concat(this.takeUniqueInvoices(this.takeValidInvoices(invoices)));
 	}
 
 	private takeValidInvoices(invoices: string[]): string[] {
