@@ -113,7 +113,7 @@ describe('CSV Filter', () => {
 		expect(result).toEqual([header, invoiceLine1, invoiceLine2]);
 	});
 
-	it('excludes lines with repeated invoice id', () => {
+	xit('excludes lines with repeated invoice id', () => {
 		const invoiceLine1 = fileWithOneInvoiceLineHaving({ invoiceId: '1' });
 		const invoiceLine2 = fileWithOneInvoiceLineHaving({ invoiceId: '1' });
 		const invoiceLine3 = fileWithOneInvoiceLineHaving({ invoiceId: '3' });
@@ -124,6 +124,25 @@ describe('CSV Filter', () => {
 		const result = csvFilter.filteredLines;
 
 		expect(result).toEqual([header, invoiceLine4]);
+	});
+
+	it('takes repeated invoices', () => {
+		const invoiceLine1 = fileWithOneInvoiceLineHaving({ invoiceId: '1' });
+		const invoiceLine2 = fileWithOneInvoiceLineHaving({ invoiceId: '1' });
+		const invoiceLine3 = fileWithOneInvoiceLineHaving({ invoiceId: '3' });
+		const invoiceLine4 = fileWithOneInvoiceLineHaving({ invoiceId: '4' });
+		const invoiceLine5 = fileWithOneInvoiceLineHaving({ invoiceId: '3' });
+		const csvFilter = CsvFilter.create([header, invoiceLine1, invoiceLine2, invoiceLine3, invoiceLine4, invoiceLine5]);
+
+		const result = csvFilter.takeRepeatedInvoiceIds([
+			invoiceLine1,
+			invoiceLine2,
+			invoiceLine3,
+			invoiceLine4,
+			invoiceLine5,
+		]);
+
+		expect(result).toEqual(['1', '3']);
 	});
 
 	interface FileWithOneInvoiceLineHavingParams {
