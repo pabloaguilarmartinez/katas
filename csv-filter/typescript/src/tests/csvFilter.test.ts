@@ -27,6 +27,6 @@ describe('CSV Filter', () => {
 
 		const result = csvFilter.filteredLines;
 
-		expect(result).toEqual(header);
+		expect(result).toEqual([header]);
 	});
 });
