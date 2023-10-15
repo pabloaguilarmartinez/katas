@@ -11,9 +11,10 @@ import { CsvFilter } from '../core/csvFilter';
 
 describe('CSV Filter', () => {
 	const header = 'Num_invoice, Date, Gross, Net, VAT, IGIC, Concept, CIF_customer, NIF_customer';
+	const emptyField = '';
 
 	it('allows for correct lines only', () => {
-		const invoiceLine = '1,02/05/2019,1008,810,19,,ACERLaptop,B76430134,';
+		const invoiceLine = fileWithOneInvoiceLineHaving();
 		const csvFilter = CsvFilter.create([header, invoiceLine]);
 
 		const result = csvFilter.filteredLines;
@@ -22,7 +23,7 @@ describe('CSV Filter', () => {
 	});
 
 	it('excludes lines with both tax fields populated as they are exclusive', () => {
-		const invoiceLine = '1,02/05/2021,1000,790,21,7,ACER Laptop,B76430134,';
+		const invoiceLine = fileWithOneInvoiceLineHaving('21', '7');
 		const csvFilter = CsvFilter.create([header, invoiceLine]);
 
 		const result = csvFilter.filteredLines;
@@ -31,7 +32,7 @@ describe('CSV Filter', () => {
 	});
 
 	it('excludes lines without tax fields populated as one is required', () => {
-		const invoiceLine = '1,02/05/2021,1000,790,,,ACER Laptop,B76430134,';
+		const invoiceLine = fileWithOneInvoiceLineHaving('', '');
 		const csvFilter = CsvFilter.create([header, invoiceLine]);
 
 		const result = csvFilter.filteredLines;
@@ -40,7 +41,7 @@ describe('CSV Filter', () => {
 	});
 
 	it('excludes lines with non decimal tax fields', () => {
-		const invoiceLine = '1,02/05/2021,1000,790,XYZ,,ACER Laptop,B76430134,';
+		const invoiceLine = fileWithOneInvoiceLineHaving('XYZ', '');
 		const csvFilter = CsvFilter.create([header, invoiceLine]);
 
 		const result = csvFilter.filteredLines;
@@ -49,11 +50,22 @@ describe('CSV Filter', () => {
 	});
 
 	it('excludes lines with both tax fields populated even if non decimal', () => {
-		const invoiceLine = '1,02/05/2021,1000,790,XYZ,7,ACER Laptop,B76430134,';
+		const invoiceLine = fileWithOneInvoiceLineHaving('XYZ', '7');
 		const csvFilter = CsvFilter.create([header, invoiceLine]);
 
 		const result = csvFilter.filteredLines;
 
 		expect(result).toEqual([header]);
 	});
+
+	function fileWithOneInvoiceLineHaving(vatTax: string = '21', igicTax: string = emptyField): string {
+		const invoiceId = '1';
+		const invoiceDate = '02/05/2019';
+		const grossAmount = '1000';
+		const netAmount = '790';
+		const concept = 'ACER Laptop';
+		const cif = 'B76430134';
+		const nif = emptyField;
+		return [invoiceId, invoiceDate, grossAmount, netAmount, vatTax, igicTax, concept, cif, nif].join(',');
+	}
 });
