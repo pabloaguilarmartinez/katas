@@ -1,6 +1,7 @@
 # Kata Fizzbuzz using TypeScript
+Write a program that displays numbers from 1 to 100, replacing multiples of 3 with the word "fizz" and multiples of 5 with "buzz". For numbers that are themselves multiples of 3 and 5, we will use the string "fizzbuzz".
 
-Including:
+## Stack
 * TypeScript
 * Jest
 * ESLint
