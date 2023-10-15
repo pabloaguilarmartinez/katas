@@ -103,6 +103,16 @@ describe('CSV Filter', () => {
 		expect(result).toEqual([header]);
 	});
 
+	it('allows only multiple correct lines', () => {
+		const invoiceLine1 = fileWithOneInvoiceLineHaving({});
+		const invoiceLine2 = fileWithOneInvoiceLineHaving({});
+		const csvFilter = CsvFilter.create([header, invoiceLine1, invoiceLine2]);
+
+		const result = csvFilter.filteredLines;
+
+		expect(result).toEqual([header, invoiceLine1, invoiceLine2]);
+	});
+
 	interface FileWithOneInvoiceLineHavingParams {
 		vatTax?: string;
 		igicTax?: string;
