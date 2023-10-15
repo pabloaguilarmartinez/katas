@@ -22,20 +22,20 @@ export class CsvFilter {
 		const vatField = fields[4];
 		const igicField = fields[5];
 		const decimalRegex = '\\d+(\\.\\d+)?';
-		const taxFieldsAreMutuallyExclusive =
+		const areTaxFieldsMutuallyExclusive =
 			(vatField.match(decimalRegex) || igicField.match(decimalRegex)) && (!vatField || !igicField);
 		const netAmountField = fields[3];
 		const grossAmountField = fields[2];
-		const netAmountIsWellCalculated =
-			this.checkIfNetAmountIsCorrect(netAmountField, grossAmountField, vatField) ||
-			this.checkIfNetAmountIsCorrect(netAmountField, grossAmountField, igicField);
+		const isNetAmountCorrect =
+			this.hasCorrectAmount(netAmountField, grossAmountField, vatField) ||
+			this.hasCorrectAmount(netAmountField, grossAmountField, igicField);
 		const cifField = fields[7];
 		const nifField = fields[8];
-		const identificationNumberFieldsAreMutuallyExclusive = (!cifField || !nifField) && !(!cifField && !nifField);
-		return taxFieldsAreMutuallyExclusive && netAmountIsWellCalculated && identificationNumberFieldsAreMutuallyExclusive;
+		const areIdentifierFieldsFieldsMutuallyExclusive = (!cifField || !nifField) && !(!cifField && !nifField);
+		return areTaxFieldsMutuallyExclusive && isNetAmountCorrect && areIdentifierFieldsFieldsMutuallyExclusive;
 	};
 
-	private checkIfNetAmountIsCorrect(netAmountField: string, grossAmountField: string, taxField: string): boolean {
+	private hasCorrectAmount(netAmountField: string, grossAmountField: string, taxField: string): boolean {
 		const parsedNetAmount = parseFloat(netAmountField);
 		const parsedGrossAmount = parseFloat(grossAmountField);
 		const parsedTax = parseFloat(taxField);
