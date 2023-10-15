@@ -10,7 +10,8 @@ export class CsvFilter {
 		const invoices = this.lines.slice(1);
 		const validatedInvoices = invoices.filter(this.validateInvoice);
 		const duplicateIds = this.takeRepeatedInvoiceIds(validatedInvoices);
-		return [header].concat(validatedInvoices.filter((invoice) => !duplicateIds.includes(invoice.split(',')[0])));
+		const nonRepeatedInvoices = validatedInvoices.filter((invoice) => !duplicateIds.includes(invoice.split(',')[0]));
+		return [header].concat(nonRepeatedInvoices);
 	}
 
 	private validateInvoice = (invoice: string) => {
@@ -38,7 +39,7 @@ export class CsvFilter {
 		return parsedNetAmount === parsedGrossAmount - (parsedTax / 100) * parsedGrossAmount;
 	}
 
-	takeRepeatedInvoiceIds(invoices: string[]) {
+	private takeRepeatedInvoiceIds(invoices: string[]) {
 		const invoiceIds = invoices.map((invoice) => invoice.split(',')[0]);
 		return invoiceIds.filter((id, index) => invoiceIds.indexOf(id) !== index);
 	}
