@@ -14,7 +14,7 @@ describe('CSV Filter', () => {
 	const emptyField = '';
 
 	it('allows for correct lines only', () => {
-		const invoiceLine = fileWithOneInvoiceLineHaving();
+		const invoiceLine = fileWithOneInvoiceLineHaving({});
 		const csvFilter = CsvFilter.create([header, invoiceLine]);
 
 		const result = csvFilter.filteredLines;
@@ -23,16 +23,16 @@ describe('CSV Filter', () => {
 	});
 
 	it('excludes lines with both tax fields populated as they are exclusive', () => {
-		const invoiceLine = fileWithOneInvoiceLineHaving('21', '7');
+		const invoiceLine = fileWithOneInvoiceLineHaving({ igicTax: '7' });
 		const csvFilter = CsvFilter.create([header, invoiceLine]);
 
 		const result = csvFilter.filteredLines;
 
 		expect(result).toEqual([header]);
 	});
-
+	('');
 	it('excludes lines without tax fields populated as one is required', () => {
-		const invoiceLine = fileWithOneInvoiceLineHaving('', '');
+		const invoiceLine = fileWithOneInvoiceLineHaving({ vatTax: '' });
 		const csvFilter = CsvFilter.create([header, invoiceLine]);
 
 		const result = csvFilter.filteredLines;
@@ -41,7 +41,7 @@ describe('CSV Filter', () => {
 	});
 
 	it('excludes lines with non decimal tax fields', () => {
-		const invoiceLine = fileWithOneInvoiceLineHaving('XYZ', '');
+		const invoiceLine = fileWithOneInvoiceLineHaving({ vatTax: 'XYZ' });
 		const csvFilter = CsvFilter.create([header, invoiceLine]);
 
 		const result = csvFilter.filteredLines;
@@ -50,7 +50,7 @@ describe('CSV Filter', () => {
 	});
 
 	it('excludes lines with both tax fields populated even if non decimal', () => {
-		const invoiceLine = fileWithOneInvoiceLineHaving('XYZ', '7');
+		const invoiceLine = fileWithOneInvoiceLineHaving({ vatTax: 'XYZ', igicTax: '7' });
 		const csvFilter = CsvFilter.create([header, invoiceLine]);
 
 		const result = csvFilter.filteredLines;
@@ -59,7 +59,7 @@ describe('CSV Filter', () => {
 	});
 
 	it('excludes lines with net amount calculated incorrectly with vat tax', () => {
-		const invoiceLine = fileWithOneInvoiceLineHaving('21', '', '900');
+		const invoiceLine = fileWithOneInvoiceLineHaving({ netAmount: '900' });
 		const csvFilter = CsvFilter.create([header, invoiceLine]);
 
 		const result = csvFilter.filteredLines;
@@ -68,7 +68,7 @@ describe('CSV Filter', () => {
 	});
 
 	it('allows only the correct lines when the igic tax is applied', () => {
-		const invoiceLine = fileWithOneInvoiceLineHaving('', '7', '930');
+		const invoiceLine = fileWithOneInvoiceLineHaving({ vatTax: '', igicTax: '7', netAmount: '930' });
 		const csvFilter = CsvFilter.create([header, invoiceLine]);
 
 		const result = csvFilter.filteredLines;
@@ -77,7 +77,7 @@ describe('CSV Filter', () => {
 	});
 
 	it('excludes lines with miscalculated net amount for igic tax', () => {
-		const invoiceLine = fileWithOneInvoiceLineHaving('', '7', '900');
+		const invoiceLine = fileWithOneInvoiceLineHaving({ vatTax: '', igicTax: '7', netAmount: '900' });
 		const csvFilter = CsvFilter.create([header, invoiceLine]);
 
 		const result = csvFilter.filteredLines;
@@ -86,7 +86,7 @@ describe('CSV Filter', () => {
 	});
 
 	it('excludes lines with both identification numbers fields populated as they are exclusive', () => {
-		const invoiceLine = fileWithOneInvoiceLineHaving('21', '', '790', 'B76430134', '12345678A');
+		const invoiceLine = fileWithOneInvoiceLineHaving({ nif: '12345678A' });
 		const csvFilter = CsvFilter.create([header, invoiceLine]);
 
 		const result = csvFilter.filteredLines;
@@ -95,7 +95,7 @@ describe('CSV Filter', () => {
 	});
 
 	it('excludes lines without identification numbers fields populated as one is required', () => {
-		const invoiceLine = fileWithOneInvoiceLineHaving('21', '', '790', '', '');
+		const invoiceLine = fileWithOneInvoiceLineHaving({ cif: '' });
 		const csvFilter = CsvFilter.create([header, invoiceLine]);
 
 		const result = csvFilter.filteredLines;
@@ -103,13 +103,21 @@ describe('CSV Filter', () => {
 		expect(result).toEqual([header]);
 	});
 
-	function fileWithOneInvoiceLineHaving(
-		vatTax: string = '21',
-		igicTax: string = emptyField,
-		netAmount: string = '790',
-		cif: string = 'B76430134',
-		nif: string = emptyField
-	): string {
+	interface FileWithOneInvoiceLineHavingParams {
+		vatTax?: string;
+		igicTax?: string;
+		netAmount?: string;
+		cif?: string;
+		nif?: string;
+	}
+
+	function fileWithOneInvoiceLineHaving({
+		vatTax = '21',
+		igicTax = emptyField,
+		netAmount = '790',
+		cif = 'B76430134',
+		nif = emptyField,
+	}: FileWithOneInvoiceLineHavingParams): string {
 		const invoiceId = '1';
 		const invoiceDate = '02/05/2019';
 		const grossAmount = '1000';
