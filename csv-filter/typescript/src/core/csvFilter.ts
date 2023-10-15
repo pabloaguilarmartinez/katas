@@ -6,34 +6,29 @@ export class CsvFilter {
 	}
 
 	get filteredLines(): string[] {
-		const result = [];
-		result.push(this.lines[0]);
+		const header = this.lines[0];
 		const invoices = this.lines.slice(1);
-		invoices.forEach((invoice) => {
-			const fields = invoice.split(',');
-			const vatField = fields[4];
-			const igicField = fields[5];
-			const decimalRegex = '\\d+(\\.\\d+)?';
-			const taxFieldsAreMutuallyExclusive =
-				(vatField.match(decimalRegex) || igicField.match(decimalRegex)) && (!vatField || !igicField);
-			const netAmountField = fields[3];
-			const grossAmountField = fields[2];
-			const netAmountIsWellCalculated =
-				this.checkIfNetAmountIsCorrect(netAmountField, grossAmountField, vatField) ||
-				this.checkIfNetAmountIsCorrect(netAmountField, grossAmountField, igicField);
-			const cifField = fields[7];
-			const nifField = fields[8];
-			const identificationNumberFieldsAreMutuallyExclusive = (!cifField || !nifField) && !(!cifField && !nifField);
-			if (
-				taxFieldsAreMutuallyExclusive &&
-				netAmountIsWellCalculated &&
-				identificationNumberFieldsAreMutuallyExclusive
-			) {
-				result.push(this.lines[1]);
-			}
-		});
-
-		return result;
+		return [header].concat(
+			invoices.filter((invoice) => {
+				const fields = invoice.split(',');
+				const vatField = fields[4];
+				const igicField = fields[5];
+				const decimalRegex = '\\d+(\\.\\d+)?';
+				const taxFieldsAreMutuallyExclusive =
+					(vatField.match(decimalRegex) || igicField.match(decimalRegex)) && (!vatField || !igicField);
+				const netAmountField = fields[3];
+				const grossAmountField = fields[2];
+				const netAmountIsWellCalculated =
+					this.checkIfNetAmountIsCorrect(netAmountField, grossAmountField, vatField) ||
+					this.checkIfNetAmountIsCorrect(netAmountField, grossAmountField, igicField);
+				const cifField = fields[7];
+				const nifField = fields[8];
+				const identificationNumberFieldsAreMutuallyExclusive = (!cifField || !nifField) && !(!cifField && !nifField);
+				return (
+					taxFieldsAreMutuallyExclusive && netAmountIsWellCalculated && identificationNumberFieldsAreMutuallyExclusive
+				);
+			})
+		);
 	}
 
 	private checkIfNetAmountIsCorrect(netAmountField: string, grossAmountField: string, taxField: string): boolean {
