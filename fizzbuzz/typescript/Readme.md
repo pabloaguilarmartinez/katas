@@ -9,7 +9,6 @@ Write a program that displays numbers from 1 to 100, replacing multiples of 3 wi
 * Husky
 
 ## Instructions
-* `nvm use`
 * `npm install`
 * `npm test`
 
