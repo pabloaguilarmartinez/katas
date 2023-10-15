@@ -105,7 +105,7 @@ describe('CSV Filter', () => {
 
 	it('allows only multiple correct lines', () => {
 		const invoiceLine1 = fileWithOneInvoiceLineHaving({});
-		const invoiceLine2 = fileWithOneInvoiceLineHaving({});
+		const invoiceLine2 = fileWithOneInvoiceLineHaving({ invoiceId: '2' });
 		const csvFilter = CsvFilter.create([header, invoiceLine1, invoiceLine2]);
 
 		const result = csvFilter.filteredLines;
@@ -113,7 +113,7 @@ describe('CSV Filter', () => {
 		expect(result).toEqual([header, invoiceLine1, invoiceLine2]);
 	});
 
-	xit('excludes lines with repeated invoice id', () => {
+	it('excludes lines with repeated invoice id', () => {
 		const invoiceLine1 = fileWithOneInvoiceLineHaving({ invoiceId: '1' });
 		const invoiceLine2 = fileWithOneInvoiceLineHaving({ invoiceId: '1' });
 		const invoiceLine3 = fileWithOneInvoiceLineHaving({ invoiceId: '3' });
