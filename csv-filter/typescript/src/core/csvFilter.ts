@@ -2,6 +2,9 @@ export class CsvFilter {
 	private constructor(private readonly lines: string[]) {}
 
 	static create(lines: string[]) {
+		if (lines.length === 1) {
+			throw new Error('Single line is not allowed');
+		}
 		return new CsvFilter(lines);
 	}
 
