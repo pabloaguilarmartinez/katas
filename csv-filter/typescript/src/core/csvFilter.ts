@@ -5,13 +5,16 @@ export class CsvFilter {
 		return new CsvFilter(lines);
 	}
 
-	get filteredLines() {
+	get filteredLines(): string[] {
 		const result = [];
 		result.push(this.lines[0]);
 		const fields = this.lines[1].split(',');
 		const vatField = fields[4];
 		const igicField = fields[5];
-		const taxFieldsAreMutuallyExclusive = (!vatField || !igicField) && !(!vatField && !igicField);
+		const decimalRegex = '\\d+(\\.\\d+)?';
+		const taxFieldsAreMutuallyExclusive =
+			(vatField.match(decimalRegex) || igicField.match(decimalRegex)) &&
+			!(vatField.match(decimalRegex) && igicField.match(decimalRegex));
 		if (taxFieldsAreMutuallyExclusive) {
 			result.push(this.lines[1]);
 		}
