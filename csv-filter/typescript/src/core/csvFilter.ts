@@ -13,8 +13,7 @@ export class CsvFilter {
 		const igicField = fields[5];
 		const decimalRegex = '\\d+(\\.\\d+)?';
 		const taxFieldsAreMutuallyExclusive =
-			(vatField.match(decimalRegex) || igicField.match(decimalRegex)) &&
-			!(vatField.match(decimalRegex) && igicField.match(decimalRegex));
+			(vatField.match(decimalRegex) || igicField.match(decimalRegex)) && (!vatField || !igicField);
 		if (taxFieldsAreMutuallyExclusive) {
 			result.push(this.lines[1]);
 		}
