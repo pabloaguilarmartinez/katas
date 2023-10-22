@@ -5,9 +5,17 @@ function findSmallestPrime(number: number) {
 	return factor;
 }
 
-export function getPrimeFactorsFor(number: number): number[] {
+function checkForPositiveNumber(number: number) {
 	if (number < 1) throw new Error('Only positive numbers are allowed');
+}
+
+function primeFactors(number: number) {
 	const prime = findSmallestPrime(number);
 	const remainder = number / prime;
 	return remainder <= 1 ? [prime] : [prime].concat(getPrimeFactorsFor(remainder));
+}
+
+export function getPrimeFactorsFor(number: number): number[] {
+	checkForPositiveNumber(number);
+	return primeFactors(number);
 }
