@@ -23,5 +23,6 @@ describe('Prime factors', () => {
 		expect(getPrimeFactorsFor(2)).toEqual([2]);
 		expect(getPrimeFactorsFor(2 * 2)).toEqual([2, 2]);
 		expect(getPrimeFactorsFor(2 * 2 * 2)).toEqual([2, 2, 2]);
+		expect(getPrimeFactorsFor(3)).toEqual([3]);
 	});
 });
