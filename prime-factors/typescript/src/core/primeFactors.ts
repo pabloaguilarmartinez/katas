@@ -6,6 +6,7 @@ function findSmallestPrime(number: number) {
 }
 
 export function getPrimeFactorsFor(number: number): number[] {
+	if (number < 1) throw new Error('Only positive numbers are allowed');
 	const prime = findSmallestPrime(number);
 	const remainder = number / prime;
 	return remainder <= 1 ? [prime] : [prime].concat(getPrimeFactorsFor(remainder));
