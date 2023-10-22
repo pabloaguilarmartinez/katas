@@ -9,7 +9,8 @@
 5 * 7 * 11 * 3 ⇒ [3,5,7,11]
  */
 function getPrimeFactorsFor(number: number) {
-	return [2];
+	const factors = [2];
+	return factors;
 }
 
 describe('Prime factors', () => {
