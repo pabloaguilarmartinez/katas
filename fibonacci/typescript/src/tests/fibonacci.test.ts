@@ -5,9 +5,7 @@ describe('The fibonacci sequence', () => {
 	it('yields value zero to number zero', () => {
 		expect(fibonacci(0)).toBe(0);
 	});
-});
 
-describe('The fibonacci sequence', () => {
 	it('yields value one to number one', () => {
 		expect(fibonacci(1)).toBe(1);
 	});
