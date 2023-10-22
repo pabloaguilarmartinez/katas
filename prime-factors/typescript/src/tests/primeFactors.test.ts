@@ -16,4 +16,7 @@ describe('Prime factors', () => {
 	it('orders the prime factors from the smallest to the biggest', () => {
 		expect(getPrimeFactorsFor(5 * 7 * 11 * 3)).toEqual([3, 5, 7, 11]);
 	});
+	it('only accepts positive numbers', () => {
+		expect(() => getPrimeFactorsFor(-5)).toThrow();
+	});
 });
