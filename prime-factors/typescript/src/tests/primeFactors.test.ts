@@ -8,9 +8,11 @@
 5 * 5 ⇒ [5,5]
 5 * 7 * 11 * 3 ⇒ [3,5,7,11]
  */
-function getPrimeFactorsFor(number: number) {
+function getPrimeFactorsFor(number: number): number[] {
+	const factor = 2;
 	const factors = [2];
-	if (number / 2 > 1) {
+	const remainder = number / factor;
+	if (remainder > 1) {
 		factors.push(2);
 	}
 	return factors;
