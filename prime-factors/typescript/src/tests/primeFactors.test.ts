@@ -1,6 +1,9 @@
 import { getPrimeFactorsFor } from '../core/primeFactors';
 
 describe('Prime factors', () => {
+	it('knows that the first prime is number one', () => {
+		expect(getPrimeFactorsFor(1)).toEqual([1]);
+	});
 	it('knows what is a prime number', () => {
 		expect(getPrimeFactorsFor(2)).toEqual([2]);
 		expect(getPrimeFactorsFor(3)).toEqual([3]);
