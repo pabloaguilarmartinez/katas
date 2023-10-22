@@ -9,4 +9,8 @@ describe('The fibonacci sequence', () => {
 	it('yields value one to number one', () => {
 		expect(fibonacci(1)).toBe(1);
 	});
+
+	it('is a series where the value for a number is the addition of the preceding two values', () => {
+		expect(fibonacci(2)).toBe(fibonacci(0) + fibonacci(1));
+	});
 });
