@@ -11,10 +11,9 @@
 function getPrimeFactorsFor(number: number): number[] {
 	const factor = 2;
 	const factors = [2];
-	let remainder = number / factor;
-	while (remainder > 1) {
-		factors.push(2);
-		remainder = remainder / factor;
+	const remainder = number / factor;
+	if (remainder > 1) {
+		return factors.concat(getPrimeFactorsFor(remainder));
 	}
 	return factors;
 }
