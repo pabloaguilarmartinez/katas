@@ -9,5 +9,6 @@ describe('The Word Wrapper', () => {
 	});
 	it('part words that are longer than column width', () => {
 		expect(wordWrap('longword', 4)).toBe('long\nword');
+		expect(wordWrap('reallylongword', 4)).toBe('real\nlylo\nngwo\nrd');
 	});
 });
