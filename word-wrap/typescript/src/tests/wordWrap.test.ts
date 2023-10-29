@@ -8,6 +8,6 @@ describe('The Word Wrapper', () => {
 		expect(wordWrap('hello', 5)).toBe('hello');
 	});
 	it('part words that are longer than column width', () => {
-		expect(wordWrap('longword', 5)).toBe('long\nword');
+		expect(wordWrap('longword', 4)).toBe('long\nword');
 	});
 });
