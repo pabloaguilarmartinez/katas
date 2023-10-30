@@ -13,5 +13,6 @@ describe('The Word Wrapper', () => {
 	});
 	it('converts the blank space into a break line', () => {
 		expect(wordWrap('abc def', 4)).toBe('abc\ndef');
+		expect(wordWrap('abc def ghi', 4)).toBe('abc\ndef\nghi');
 	});
 });
