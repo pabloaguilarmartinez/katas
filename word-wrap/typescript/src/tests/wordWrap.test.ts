@@ -11,4 +11,7 @@ describe('The Word Wrapper', () => {
 		expect(wordWrap('longword', 4)).toBe('long\nword');
 		expect(wordWrap('reallylongword', 4)).toBe('real\nlylo\nngwo\nrd');
 	});
+	it('converts the blank space into a break line', () => {
+		expect(wordWrap('abc def', 4)).toBe('abc\ndef');
+	});
 });
