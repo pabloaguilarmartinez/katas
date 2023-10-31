@@ -19,4 +19,7 @@ describe('The Word Wrapper', () => {
 	it('allows null text', () => {
 		expect(wordWrap(null, 5)).toBe('');
 	});
+	it('only accepts positive column width value', () => {
+		expect(wordWrap('hello', -5)).toThrow();
+	});
 });
