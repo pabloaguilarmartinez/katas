@@ -6,5 +6,5 @@ export function wordWrap(text: string, columnWidth: number): string {
 	}
 	const wrappedText = text.substring(0, columnWidth).replace(' ', '') + '\n';
 	const unwrappedText = text.substring(columnWidth);
-	return wrappedText + wordWrap(unwrappedText, columnWidth);
+	return wrappedText.concat(wordWrap(unwrappedText, columnWidth));
 }
