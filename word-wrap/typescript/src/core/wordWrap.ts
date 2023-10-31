@@ -1,6 +1,6 @@
 export function wordWrap(text: string, columnWidth: number): string {
-	if (columnWidth < 1) throw new Error('Only positive column width values are allowed');
-	if (text === null) return '';
+	checkForPositiveColumnWidth(columnWidth);
+	if (text == null) return '';
 	if (text.length <= columnWidth) {
 		return text;
 	}
@@ -9,6 +9,10 @@ export function wordWrap(text: string, columnWidth: number): string {
 	const wrappedText = text.substring(0, wrapIndex).concat('\n');
 	const unwrappedText = text.substring(unwrapIndex);
 	return wrappedText.concat(wordWrap(unwrappedText, columnWidth));
+}
+
+function checkForPositiveColumnWidth(columnWidth: number) {
+	if (columnWidth < 1) throw new Error('Only positive column width values are allowed');
 }
 
 function getWrapIndex(text: string, columnWidth: number) {
