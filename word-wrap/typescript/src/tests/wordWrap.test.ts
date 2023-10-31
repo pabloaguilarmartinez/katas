@@ -20,6 +20,6 @@ describe('The Word Wrapper', () => {
 		expect(wordWrap(null, 5)).toBe('');
 	});
 	it('only accepts positive column width value', () => {
-		expect(wordWrap('hello', -5)).toThrow();
+		expect(() => wordWrap('hello', -5)).toThrow();
 	});
 });
