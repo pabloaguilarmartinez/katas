@@ -1,4 +1,5 @@
 export function wordWrap(text: string, columnWidth: number): string {
+	if (text === null) return '';
 	if (text.length <= columnWidth) {
 		return text;
 	}
