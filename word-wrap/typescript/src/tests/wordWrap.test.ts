@@ -16,4 +16,7 @@ describe('The Word Wrapper', () => {
 		expect(wordWrap('abc def ghi', 4)).toBe('abc\ndef\nghi');
 		expect(wordWrap(' abcdf', 4)).toBe('\nabcd\nf');
 	});
+	it('allows null text', () => {
+		expect(wordWrap(null, 5)).toBe('');
+	});
 });
