@@ -6,9 +6,10 @@ export function wordWrap(text: string, columnWidth: number): string {
 	}
 	let wrappedText: string;
 	let unwrappedText: string;
-	if (text.indexOf(' ') > -1 && text.indexOf(' ') < columnWidth) {
-		wrappedText = text.substring(0, text.indexOf(' ')).concat('\n');
-		unwrappedText = text.substring(text.indexOf(' ') + 1);
+	const indexOfSpace = text.indexOf(' ');
+	if (indexOfSpace > -1 && indexOfSpace < columnWidth) {
+		wrappedText = text.substring(0, indexOfSpace).concat('\n');
+		unwrappedText = text.substring(indexOfSpace + 1);
 	} else {
 		wrappedText = text.substring(0, columnWidth).concat('\n');
 		unwrappedText = text.substring(columnWidth);
