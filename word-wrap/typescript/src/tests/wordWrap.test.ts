@@ -1,25 +1,28 @@
-import { wordWrap } from '../core/wordWrap';
+import { ColumnWidth, WrappableText } from '../core/wordWrap';
 
 describe('The Word Wrapper', () => {
 	it('does not add a line break if text is shorter than column width', () => {
-		expect(wordWrap('', 5)).toBe('');
+		expect(WrappableText.create('').wordWrap(ColumnWidth.create(5))).toEqual({ text: '' });
 	});
 	it('does not add a line break if text is as long as the column width', () => {
-		expect(wordWrap('hello', 5)).toBe('hello');
+		expect(WrappableText.create('hello').wordWrap(ColumnWidth.create(5))).toEqual({ text: 'hello' });
 	});
 	it('part words that are longer than column width', () => {
-		expect(wordWrap('longword', 4)).toBe('long\nword');
-		expect(wordWrap('reallylongword', 4)).toBe('real\nlylo\nngwo\nrd');
+		expect(WrappableText.create('longword').wordWrap(ColumnWidth.create(4))).toEqual({ text: 'long\nword' });
+		expect(WrappableText.create('reallylongword').wordWrap(ColumnWidth.create(4))).toEqual({
+			text: 'real\nlylo\nngwo\nrd',
+		});
 	});
 	it('blank spaces are preferred for wrapping', () => {
-		expect(wordWrap('abc def', 4)).toBe('abc\ndef');
-		expect(wordWrap('abc def ghi', 4)).toBe('abc\ndef\nghi');
-		expect(wordWrap(' abcdf', 4)).toBe('\nabcd\nf');
+		expect(WrappableText.create('abc def').wordWrap(ColumnWidth.create(4))).toEqual({ text: 'abc\ndef' });
+		expect(WrappableText.create('abc def ghi').wordWrap(ColumnWidth.create(4))).toEqual({ text: 'abc\ndef\nghi' });
+		expect(WrappableText.create(' abcd').wordWrap(ColumnWidth.create(4))).toEqual({ text: '\nabcd' });
 	});
 	it('allows null text', () => {
-		expect(wordWrap(null, 5)).toBe('');
+		expect(WrappableText.create(null).wordWrap(ColumnWidth.create(5))).toEqual({ text: '' });
+		expect(WrappableText.create(undefined).wordWrap(ColumnWidth.create(5))).toEqual({ text: '' });
 	});
 	it('only accepts positive column width value', () => {
-		expect(() => wordWrap('hello', -5)).toThrow();
+		expect(() => WrappableText.create('hello').wordWrap(ColumnWidth.create(-5))).toThrow();
 	});
 });
