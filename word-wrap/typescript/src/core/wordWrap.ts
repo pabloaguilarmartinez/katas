@@ -4,16 +4,12 @@ export function wordWrap(text: string, columnWidth: number): string {
 	if (text.length <= columnWidth) {
 		return text;
 	}
-	let wrappedText: string;
-	let unwrappedText: string;
+
 	const indexOfSpace = text.indexOf(' ');
 	const shallWrapBySpace = indexOfSpace > -1 && indexOfSpace < columnWidth;
-	if (shallWrapBySpace) {
-		wrappedText = text.substring(0, indexOfSpace).concat('\n');
-		unwrappedText = text.substring(indexOfSpace + 1);
-	} else {
-		wrappedText = text.substring(0, columnWidth).concat('\n');
-		unwrappedText = text.substring(columnWidth);
-	}
+	const wrapIndex = shallWrapBySpace ? indexOfSpace : columnWidth;
+	const unwrapIndex = shallWrapBySpace ? indexOfSpace + 1 : columnWidth;
+	const wrappedText = text.substring(0, wrapIndex).concat('\n');
+	const unwrappedText = text.substring(unwrapIndex);
 	return wrappedText.concat(wordWrap(unwrappedText, columnWidth));
 }
