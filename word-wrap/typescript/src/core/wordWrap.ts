@@ -7,7 +7,8 @@ export function wordWrap(text: string, columnWidth: number): string {
 	let wrappedText: string;
 	let unwrappedText: string;
 	const indexOfSpace = text.indexOf(' ');
-	if (indexOfSpace > -1 && indexOfSpace < columnWidth) {
+	const shallWrapBySpace = indexOfSpace > -1 && indexOfSpace < columnWidth;
+	if (shallWrapBySpace) {
 		wrappedText = text.substring(0, indexOfSpace).concat('\n');
 		unwrappedText = text.substring(indexOfSpace + 1);
 	} else {
