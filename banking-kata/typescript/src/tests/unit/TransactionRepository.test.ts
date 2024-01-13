@@ -16,7 +16,7 @@ describe('The Transaction Repository', () => {
 		repository.addDeposit(amount);
 
 		const transactions = repository.allTransactions();
-		expect(transactions[0]).toBe(new Transaction(today, amount));
+		expect(transactions[0]).toEqual(new Transaction(today, amount));
 	});
 
 	it('stores a withdrawal transaction for a given amount', () => {
@@ -25,6 +25,6 @@ describe('The Transaction Repository', () => {
 		repository.addWithdrawal(amount);
 
 		const transactions = repository.allTransactions();
-		expect(transactions[0]).toBe(new Transaction(today, -amount));
+		expect(transactions[0]).toEqual(new Transaction(today, -amount));
 	});
 });
