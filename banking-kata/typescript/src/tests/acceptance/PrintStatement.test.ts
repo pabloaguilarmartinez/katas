@@ -6,10 +6,15 @@ import { Clock } from '../../core/Clock';
 
 describe('Print Statement', () => {
 	const console = new Console();
-	const clock = new Clock();
 	const consoleSpy = jest.spyOn(console, 'log');
-	const repository = new TransactionRepository(clock);
 	const statementPrinter = new StatementPrinter(console);
+	const clock = new Clock();
+	clock.todayAsString = jest
+		.fn()
+		.mockReturnValueOnce('10/01/2022')
+		.mockReturnValueOnce('13/01/2022')
+		.mockReturnValueOnce('14/01/2022');
+	const repository = new TransactionRepository(clock);
 	const account = new Account(repository, statementPrinter);
 
 	it('prints an account statement including the transactions made throughout the console', () => {
@@ -20,8 +25,8 @@ describe('Print Statement', () => {
 		account.printStatement();
 
 		expect(consoleSpy).toHaveBeenCalledWith('Date | Amount | Balance');
-		expect(consoleSpy).toHaveBeenCalledWith('14/01/2022 | 2000 | 2500');
-		expect(consoleSpy).toHaveBeenCalledWith('13/01/2022 | -500 | 500');
-		expect(consoleSpy).toHaveBeenCalledWith('10/01/2022 | 1000 | 1000');
+		expect(consoleSpy).toHaveBeenCalledWith('14/01/2022 | 2000.00 | 2500.00');
+		expect(consoleSpy).toHaveBeenCalledWith('13/01/2022 | -500.00 | 500.00');
+		expect(consoleSpy).toHaveBeenCalledWith('10/01/2022 | 1000.00 | 1000.00');
 	});
 });
