@@ -1,6 +1,6 @@
 export class Transaction {
 	constructor(
-		private readonly date: string,
-		private readonly amount: number
+		readonly date: string,
+		readonly amount: number
 	) {}
 }
