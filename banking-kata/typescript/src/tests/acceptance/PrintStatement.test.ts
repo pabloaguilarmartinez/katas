@@ -1,7 +1,7 @@
 import { Console } from '../../core/Console';
 import { Account } from '../../core/Account';
 import { TransactionRepository } from '../../core/TransactionRepository';
-import { StatementPrinter } from '../unit/Account.test';
+import { StatementPrinter } from '../../core/StatementPrinter';
 
 describe('Print Statement', () => {
 	const console = new Console();
