@@ -1,4 +1,4 @@
-import {Transaction} from "../tests/unit/Account.test";
+import { Transaction } from './Transaction';
 
 export class TransactionRepository {
 	addDeposit(amount: number): void {}

@@ -1,5 +1,5 @@
 import { TransactionRepository } from './TransactionRepository';
-import { StatementPrinter } from '../tests/unit/Account.test';
+import { StatementPrinter } from './StatementPrinter';
 
 export class Account {
 	constructor(
