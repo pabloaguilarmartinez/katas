@@ -25,4 +25,8 @@ describe('In the game of life', () => {
   it('any dead cell with exactly three live neighbours becomes a live cell', () => {
     expect(new Cell('DEAD').nextGeneration(3).isAlive()).toBeTruthy();
   });
+  it('cells with undefined initial state are not allowed', () => {
+    expect(() => new Cell(undefined)).toThrow();
+    expect(() => new Cell(null)).toThrow();
+  });
 });
