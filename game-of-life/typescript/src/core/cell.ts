@@ -1,7 +1,11 @@
 type CellStatus = 'DEAD' | 'ALIVE';
 
 export class Cell {
-  constructor(private readonly status: CellStatus) {}
+  constructor(private readonly status: CellStatus) {
+    if (status == null) {
+      throw new Error('Cell status cannot be null or undefined');
+    }
+  }
 
   nextGeneration(numberOfNeighbours: number): Cell {
     return new Cell(this.regenerate(numberOfNeighbours));
