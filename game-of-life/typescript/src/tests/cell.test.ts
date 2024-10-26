@@ -18,6 +18,6 @@ class Cell {
   constructor(readonly status: CellStatus) {}
 
   regenerate(numberOfNeighbours: number): CellStatus {
-    return 'ALIVE';
+    return 'DEAD';
   }
 }
