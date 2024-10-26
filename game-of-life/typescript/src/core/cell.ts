@@ -3,12 +3,18 @@ type CellStatus = 'DEAD' | 'ALIVE';
 export class Cell {
   constructor(readonly status: CellStatus) {}
 
-  regenerate(numberOfNeighbours: number): CellStatus {
-    if (this.status === 'ALIVE') {
-      return this.statusForAliveCell(numberOfNeighbours);
-    } else {
-      return this.statusForDeadCell(numberOfNeighbours);
-    }
+  nextGeneration(numberOfNeighbours: number): Cell {
+    return new Cell(this.regenerate(numberOfNeighbours));
+  }
+
+  isAlive() {
+    return this.status === 'ALIVE';
+  }
+
+  private regenerate(numberOfNeighbours: number): CellStatus {
+    return this.status === 'ALIVE'
+      ? this.statusForAliveCell(numberOfNeighbours)
+      : this.statusForDeadCell(numberOfNeighbours);
   }
 
   private statusForAliveCell(numberOfNeighbours: number) {
