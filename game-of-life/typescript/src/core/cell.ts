@@ -1,7 +1,7 @@
 type CellStatus = 'DEAD' | 'ALIVE';
 
 export class Cell {
-  constructor(readonly status: CellStatus) {}
+  constructor(private readonly status: CellStatus) {}
 
   nextGeneration(numberOfNeighbours: number): Cell {
     return new Cell(this.regenerate(numberOfNeighbours));
