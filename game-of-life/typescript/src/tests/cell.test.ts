@@ -4,6 +4,8 @@
 3. Any live cell with two or three live neighbours lives on to the next generation.
 4. Any dead cell with exactly three live neighbours becomes a live cell.
  */
+import { Cell } from '../core/cell';
+
 describe('In the game of life', () => {
   it('any live cell with fewer than two live neighbours dies, as if caused by underpopulation', () => {
     const numberOfNeighbours = 1;
@@ -24,22 +26,3 @@ describe('In the game of life', () => {
     expect(new Cell('DEAD').regenerate(3)).toBe('ALIVE');
   });
 });
-
-type CellStatus = 'DEAD' | 'ALIVE';
-
-class Cell {
-  constructor(readonly status: CellStatus) {}
-
-  regenerate(numberOfNeighbours: number): CellStatus {
-    if (this.status === 'ALIVE') {
-      if (numberOfNeighbours === 2 || numberOfNeighbours === 3) {
-        return 'ALIVE';
-      }
-    } else {
-      if (numberOfNeighbours === 3) {
-        return 'ALIVE';
-      }
-    }
-    return 'DEAD';
-  }
-}
