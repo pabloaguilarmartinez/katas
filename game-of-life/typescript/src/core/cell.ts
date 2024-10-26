@@ -12,16 +12,10 @@ export class Cell {
   }
 
   private statusForAliveCell(numberOfNeighbours: number) {
-    if (numberOfNeighbours === 2 || numberOfNeighbours === 3) {
-      return 'ALIVE';
-    }
-    return 'DEAD';
+    return numberOfNeighbours === 2 || numberOfNeighbours === 3 ? 'ALIVE' : 'DEAD';
   }
 
   private statusForDeadCell(numberOfNeighbours: number) {
-    if (numberOfNeighbours === 3) {
-      return 'ALIVE';
-    }
-    return 'DEAD';
+    return numberOfNeighbours === 3 ? 'ALIVE' : 'DEAD';
   }
 }
