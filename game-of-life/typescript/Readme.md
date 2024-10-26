@@ -13,6 +13,9 @@ rules:
 4. Any dead cell with exactly three live neighbours becomes a live cell.
 ```
 
+You should write a program that can accept an arbitrary grid of cells, and will output a similar grid showing the next 
+generation.
+
 ## Stack
 * TypeScript
 * Jest
