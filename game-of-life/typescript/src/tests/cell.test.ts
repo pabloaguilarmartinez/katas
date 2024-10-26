@@ -20,6 +20,9 @@ describe('In the game of life', () => {
     expect(new Cell('ALIVE').regenerate(3)).toBe('ALIVE');
     expect(new Cell('DEAD').regenerate(3)).toBe('DEAD');
   });
+  it('any dead cell with exactly three live neighbours becomes a live cell', () => {
+    expect(new Cell('DEAD').regenerate(3)).toBe('ALIVE');
+  });
 });
 
 type CellStatus = 'DEAD' | 'ALIVE';
