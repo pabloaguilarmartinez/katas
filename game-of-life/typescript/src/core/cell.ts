@@ -1,4 +1,4 @@
-type CellStatus = 'DEAD' | 'ALIVE';
+export type CellStatus = 'DEAD' | 'ALIVE';
 
 export class Cell {
   private constructor(private readonly status: CellStatus) {}
