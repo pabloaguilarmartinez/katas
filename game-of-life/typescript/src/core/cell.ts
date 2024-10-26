@@ -10,18 +10,16 @@ export class Cell {
     return new Cell(status);
   }
 
-  nextGeneration(numberOfNeighbours: number): Cell {
-    return new Cell(this.regenerate(numberOfNeighbours));
+  regenerate(numberOfNeighbours: number): Cell {
+    const newStatus =
+      this.status === 'ALIVE'
+        ? this.statusForAliveCell(numberOfNeighbours)
+        : this.statusForDeadCell(numberOfNeighbours);
+    return new Cell(newStatus);
   }
 
   isAlive() {
     return this.status === 'ALIVE';
-  }
-
-  private regenerate(numberOfNeighbours: number): CellStatus {
-    return this.status === 'ALIVE'
-      ? this.statusForAliveCell(numberOfNeighbours)
-      : this.statusForDeadCell(numberOfNeighbours);
   }
 
   private statusForAliveCell(numberOfNeighbours: number) {
