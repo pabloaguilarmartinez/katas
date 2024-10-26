@@ -15,6 +15,11 @@ describe('In the game of life', () => {
     expect(new Cell('ALIVE').regenerate(numberOfNeighbours)).toBe('DEAD');
     expect(new Cell('DEAD').regenerate(numberOfNeighbours)).toBe('DEAD');
   });
+  it('any live cell with two or three live neighbours lives on to the next generation', () => {
+    expect(new Cell('ALIVE').regenerate(2)).toBe('ALIVE');
+    expect(new Cell('ALIVE').regenerate(3)).toBe('ALIVE');
+    expect(new Cell('DEAD').regenerate(3)).toBe('DEAD');
+  });
 });
 
 type CellStatus = 'DEAD' | 'ALIVE';
