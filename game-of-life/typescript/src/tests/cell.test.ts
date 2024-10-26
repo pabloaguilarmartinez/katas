@@ -10,6 +10,11 @@ describe('In the game of life', () => {
     expect(new Cell('ALIVE').regenerate(numberOfNeighbours)).toBe('DEAD');
     expect(new Cell('DEAD').regenerate(numberOfNeighbours)).toBe('DEAD');
   });
+  it('any live cell with more than three live neighbours dies, as if by overcrowding', () => {
+    const numberOfNeighbours = 4;
+    expect(new Cell('ALIVE').regenerate(numberOfNeighbours)).toBe('DEAD');
+    expect(new Cell('DEAD').regenerate(numberOfNeighbours)).toBe('DEAD');
+  });
 });
 
 type CellStatus = 'DEAD' | 'ALIVE';
