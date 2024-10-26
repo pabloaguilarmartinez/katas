@@ -5,13 +5,22 @@ export class Cell {
 
   regenerate(numberOfNeighbours: number): CellStatus {
     if (this.status === 'ALIVE') {
-      if (numberOfNeighbours === 2 || numberOfNeighbours === 3) {
-        return 'ALIVE';
-      }
+      return this.statusForAliveCell(numberOfNeighbours);
     } else {
-      if (numberOfNeighbours === 3) {
-        return 'ALIVE';
-      }
+      return this.statusForDeadCell(numberOfNeighbours);
+    }
+  }
+
+  private statusForAliveCell(numberOfNeighbours: number) {
+    if (numberOfNeighbours === 2 || numberOfNeighbours === 3) {
+      return 'ALIVE';
+    }
+    return 'DEAD';
+  }
+
+  private statusForDeadCell(numberOfNeighbours: number) {
+    if (numberOfNeighbours === 3) {
+      return 'ALIVE';
     }
     return 'DEAD';
   }
