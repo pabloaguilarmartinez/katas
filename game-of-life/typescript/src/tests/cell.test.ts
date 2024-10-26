@@ -18,7 +18,7 @@ describe('In the game of life', () => {
   it('any live cell with two or three live neighbours lives on to the next generation', () => {
     expect(new Cell('ALIVE').regenerate(2)).toBe('ALIVE');
     expect(new Cell('ALIVE').regenerate(3)).toBe('ALIVE');
-    expect(new Cell('DEAD').regenerate(3)).toBe('DEAD');
+    expect(new Cell('DEAD').regenerate(2)).toBe('DEAD');
   });
   it('any dead cell with exactly three live neighbours becomes a live cell', () => {
     expect(new Cell('DEAD').regenerate(3)).toBe('ALIVE');
@@ -33,6 +33,10 @@ class Cell {
   regenerate(numberOfNeighbours: number): CellStatus {
     if (this.status === 'ALIVE') {
       if (numberOfNeighbours === 2 || numberOfNeighbours === 3) {
+        return 'ALIVE';
+      }
+    } else {
+      if (numberOfNeighbours === 3) {
         return 'ALIVE';
       }
     }
