@@ -27,6 +27,12 @@ describe('The World', () => {
       [Cell.create('ALIVE'), Cell.create('ALIVE')],
     ]);
   });
+  it('counts the number of live neighbours for a given cell', () => {
+    const initialStatus: CellStatus[][] = [['DEAD']];
+    const world = World.create(initialStatus);
+
+    expect(world.liveNeighboursAt(0, 0)).toEqual(0);
+  });
 });
 
 class World {
@@ -37,5 +43,9 @@ class World {
       return row.map((cellStatus) => Cell.create(cellStatus));
     });
     return new World(cellMatrix);
+  }
+
+  liveNeighboursAt(row: number, column: number): number {
+    return null;
   }
 }
