@@ -79,4 +79,28 @@ describe('The World', () => {
       [Cell.create('ALIVE'), Cell.create('DEAD'), Cell.create('ALIVE')],
     ]);
   });
+
+  it('never changes for a given initial block pattern', () => {
+    const world = World.create([
+      ['ALIVE', 'ALIVE', 'DEAD'],
+      ['ALIVE', 'ALIVE', 'DEAD'],
+      ['DEAD', 'DEAD', 'DEAD'],
+    ]);
+
+    const nextWorld = world.nextGeneration().nextGeneration().nextGeneration();
+
+    expect(nextWorld).toEqual(world);
+  });
+
+  it('reestablishes the same state after two generation given a oscillator pattern', () => {
+    const world = World.create([
+      ['DEAD', 'ALIVE', 'DEAD'],
+      ['DEAD', 'ALIVE', 'DEAD'],
+      ['DEAD', 'ALIVE', 'DEAD'],
+    ]);
+
+    const nextWorld = world.nextGeneration().nextGeneration();
+
+    expect(nextWorld).toEqual(world);
+  });
 });
