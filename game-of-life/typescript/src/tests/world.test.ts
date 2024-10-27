@@ -105,24 +105,11 @@ class World {
   }
 
   liveNeighboursAt(row: number, column: number): number {
-    let numberOfLiveNeighbours = 0;
-    for (let i = row - 1; i <= row + 1; i++) {
-      for (let j = column - 1; j <= column + 1; j++) {
-        const isCurrentCell = i === row && j === column;
-        if (isCurrentCell) {
-          continue;
-        }
-        const isOutOfBounds = i < 0 || j < 0 || i >= this.cellMatrix.length || j >= this.cellMatrix[i].length;
-        if (isOutOfBounds) {
-          continue;
-        }
-        const neighbourCell = this.cellMatrix[i][j];
-        if (neighbourCell.isAlive()) {
-          numberOfLiveNeighbours++;
-        }
-      }
-    }
-    return numberOfLiveNeighbours;
+    return (
+      this.liveColumnNeighbours(row, column) +
+      this.liveNeighboursInNextRow(row, column) +
+      this.liveNeighboursInPreviousRow(row, column)
+    );
   }
 
   nextGeneration(): World {
@@ -131,5 +118,48 @@ class World {
         row.map((cell, cellIndex) => cell.regenerate(this.liveNeighboursAt(rowIndex, cellIndex)))
       )
     );
+  }
+
+  private liveColumnNeighbours(row: number, column: number): number {
+    let numberOfLiveNeighbours = 0;
+    const previousColumn = column - 1;
+    if (previousColumn >= 0 && this.cellIsAliveAt(row, previousColumn)) {
+      numberOfLiveNeighbours++;
+    }
+    const nextColumn = column + 1;
+    const rowLength = this.cellMatrix[row].length;
+    if (nextColumn < rowLength && this.cellIsAliveAt(row, nextColumn)) {
+      numberOfLiveNeighbours++;
+    }
+    return numberOfLiveNeighbours;
+  }
+
+  private liveNeighboursInPreviousRow(row: number, column: number): number {
+    let numberOfLiveNeighbours = 0;
+    const previousRow = row - 1;
+    if (previousRow >= 0) {
+      if (this.cellIsAliveAt(previousRow, column)) {
+        numberOfLiveNeighbours++;
+      }
+      numberOfLiveNeighbours += this.liveColumnNeighbours(previousRow, column);
+    }
+    return numberOfLiveNeighbours;
+  }
+
+  private liveNeighboursInNextRow(row: number, column: number): number {
+    let numberOfLiveNeighbours = 0;
+    const nextRow = row + 1;
+    const columnLength = this.cellMatrix.length;
+    if (nextRow < columnLength) {
+      if (this.cellIsAliveAt(nextRow, column)) {
+        numberOfLiveNeighbours++;
+      }
+      numberOfLiveNeighbours += this.liveColumnNeighbours(nextRow, column);
+    }
+    return numberOfLiveNeighbours;
+  }
+
+  private cellIsAliveAt(row: number, column: number): boolean {
+    return this.cellMatrix[row][column].isAlive();
   }
 }
