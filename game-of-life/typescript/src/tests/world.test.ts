@@ -49,17 +49,19 @@ class World {
   }
 
   liveNeighboursAt(row: number, column: number): number {
-    // Count the number of live neighbours for a given cell
     let numberOfLiveNeighbours = 0;
     for (let i = row - 1; i <= row + 1; i++) {
       for (let j = column - 1; j <= column + 1; j++) {
-        if (i === row && j === column) {
+        const isCurrentCell = i === row && j === column;
+        if (isCurrentCell) {
           continue;
         }
-        if (i < 0 || j < 0 || i >= this.cellMatrix.length || j >= this.cellMatrix[i].length) {
+        const isOutOfBounds = i < 0 || j < 0 || i >= this.cellMatrix.length || j >= this.cellMatrix[i].length;
+        if (isOutOfBounds) {
           continue;
         }
-        if (this.cellMatrix[i][j].isAlive()) {
+        const neighbourCell = this.cellMatrix[i][j];
+        if (neighbourCell.isAlive()) {
           numberOfLiveNeighbours++;
         }
       }
