@@ -27,6 +27,7 @@ describe('The World', () => {
       [Cell.create('ALIVE'), Cell.create('ALIVE')],
     ]);
   });
+
   it('counts the number of live neighbours for a given cell', () => {
     const initialStatusWithOneCell: CellStatus[][] = [['DEAD']];
     const worldWithOneCell = World.create(initialStatusWithOneCell);
@@ -59,6 +60,12 @@ describe('The World', () => {
     const worldWithNineCells = World.create(initialStatusWithNineCells);
     expect(worldWithNineCells.liveNeighboursAt(1, 1)).toEqual(8);
   });
+
+  it('generates the next generation', () => {
+    const initialStatusWithOneCell: CellStatus[][] = [['DEAD']];
+    const worldWithOneCell = World.create(initialStatusWithOneCell);
+    expect(worldWithOneCell.nextGeneration()).toEqual(worldWithOneCell);
+  });
 });
 
 class World {
@@ -90,5 +97,9 @@ class World {
       }
     }
     return numberOfLiveNeighbours;
+  }
+
+  nextGeneration(): World {
+    return undefined;
   }
 }
