@@ -35,6 +35,29 @@ describe('The World', () => {
     const initialStatusWithTwoCells: CellStatus[][] = [['ALIVE', 'DEAD']];
     const worldWithTwoCells = World.create(initialStatusWithTwoCells);
     expect(worldWithTwoCells.liveNeighboursAt(0, 1)).toEqual(1);
+
+    const initialStatusWithTwoDeadCells: CellStatus[][] = [['DEAD', 'DEAD']];
+    const worldWithTwoDeadCells = World.create(initialStatusWithTwoDeadCells);
+    expect(worldWithTwoDeadCells.liveNeighboursAt(0, 1)).toEqual(0);
+
+    const initialStatusWithThreeCells: CellStatus[][] = [['ALIVE', 'DEAD', 'ALIVE']];
+    const worldWithThreeCells = World.create(initialStatusWithThreeCells);
+    expect(worldWithThreeCells.liveNeighboursAt(0, 1)).toEqual(2);
+
+    const initialStatusWithSixCells: CellStatus[][] = [
+      ['ALIVE', 'DEAD', 'ALIVE'],
+      ['ALIVE', 'ALIVE', 'ALIVE'],
+    ];
+    const worldWithSixCells = World.create(initialStatusWithSixCells);
+    expect(worldWithSixCells.liveNeighboursAt(0, 1)).toEqual(5);
+
+    const initialStatusWithNineCells: CellStatus[][] = [
+      ['ALIVE', 'ALIVE', 'ALIVE'],
+      ['ALIVE', 'DEAD', 'ALIVE'],
+      ['ALIVE', 'ALIVE', 'ALIVE'],
+    ];
+    const worldWithNineCells = World.create(initialStatusWithNineCells);
+    expect(worldWithNineCells.liveNeighboursAt(1, 1)).toEqual(8);
   });
 });
 
