@@ -64,11 +64,13 @@ describe('The World', () => {
   it('generates the next generation', () => {
     const initialStatusWithOneCell: CellStatus[][] = [['DEAD']];
     const worldWithOneCell = World.create(initialStatusWithOneCell);
-    expect(worldWithOneCell.nextGeneration()).toEqual(worldWithOneCell);
+    let expectedNextGeneration = worldWithOneCell;
+    expect(worldWithOneCell.nextGeneration()).toEqual(expectedNextGeneration);
 
     const initialStatusWithTwoCells: CellStatus[][] = [['ALIVE', 'DEAD']];
     const worldWithTwoCells = World.create(initialStatusWithTwoCells);
-    expect(worldWithTwoCells.nextGeneration()).toEqual([['DEAD', 'DEAD']]);
+    expectedNextGeneration = World.create([['DEAD', 'DEAD']]);
+    expect(worldWithTwoCells.nextGeneration()).toEqual(expectedNextGeneration);
   });
 });
 
@@ -104,6 +106,10 @@ class World {
   }
 
   nextGeneration(): World {
-    return this;
+    return new World(
+      this.cellMatrix.map((row, rowIndex) =>
+        row.map((cell, cellIndex) => cell.regenerate(this.liveNeighboursAt(rowIndex, cellIndex)))
+      )
+    );
   }
 }
