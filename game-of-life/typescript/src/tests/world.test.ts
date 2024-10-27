@@ -65,6 +65,10 @@ describe('The World', () => {
     const initialStatusWithOneCell: CellStatus[][] = [['DEAD']];
     const worldWithOneCell = World.create(initialStatusWithOneCell);
     expect(worldWithOneCell.nextGeneration()).toEqual(worldWithOneCell);
+
+    const initialStatusWithTwoCells: CellStatus[][] = [['ALIVE', 'DEAD']];
+    const worldWithTwoCells = World.create(initialStatusWithTwoCells);
+    expect(worldWithTwoCells.nextGeneration()).toEqual([['DEAD', 'DEAD']]);
   });
 });
 
