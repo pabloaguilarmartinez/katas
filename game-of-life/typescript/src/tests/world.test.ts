@@ -46,6 +46,6 @@ class World {
   }
 
   liveNeighboursAt(row: number, column: number): number {
-    return null;
+    return 0;
   }
 }
