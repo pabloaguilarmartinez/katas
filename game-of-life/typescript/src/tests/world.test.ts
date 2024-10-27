@@ -100,6 +100,6 @@ class World {
   }
 
   nextGeneration(): World {
-    return undefined;
+    return this;
   }
 }
