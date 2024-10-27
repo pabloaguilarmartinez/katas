@@ -28,10 +28,13 @@ describe('The World', () => {
     ]);
   });
   it('counts the number of live neighbours for a given cell', () => {
-    const initialStatus: CellStatus[][] = [['DEAD']];
-    const world = World.create(initialStatus);
+    const initialStatusWithOneCell: CellStatus[][] = [['DEAD']];
+    const worldWithOneCell = World.create(initialStatusWithOneCell);
+    expect(worldWithOneCell.liveNeighboursAt(0, 0)).toEqual(0);
 
-    expect(world.liveNeighboursAt(0, 0)).toEqual(0);
+    const initialStatusWithTwoCells: CellStatus[][] = [['ALIVE', 'DEAD']];
+    const worldWithTwoCells = World.create(initialStatusWithTwoCells);
+    expect(worldWithTwoCells.liveNeighboursAt(0, 1)).toEqual(1);
   });
 });
 
