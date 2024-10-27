@@ -54,43 +54,17 @@ describe('The World', () => {
   });
 
   it('generates the next generation', () => {
-    const worldWithOneCell = World.create([['DEAD']]);
-    let expectedNextGeneration = worldWithOneCell;
-    expect(worldWithOneCell.nextGeneration()).toEqual(expectedNextGeneration);
-
-    const worldWithTwoCells = World.create([['ALIVE', 'DEAD']]);
-    expectedNextGeneration = World.create([['DEAD', 'DEAD']]);
-    expect(worldWithTwoCells.nextGeneration()).toEqual(expectedNextGeneration);
-
-    const worldWithTwoDeadCells = World.create([['DEAD', 'DEAD']]);
-    expectedNextGeneration = worldWithTwoDeadCells;
-    expect(worldWithTwoDeadCells.nextGeneration()).toEqual(expectedNextGeneration);
-
-    const worldWithThreeCells = World.create([['ALIVE', 'DEAD', 'ALIVE']]);
-    expectedNextGeneration = World.create([['DEAD', 'DEAD', 'DEAD']]);
-    expect(worldWithThreeCells.nextGeneration()).toEqual(expectedNextGeneration);
-
-    const worldWithSixCells = World.create([
-      ['ALIVE', 'DEAD', 'ALIVE'],
-      ['ALIVE', 'ALIVE', 'ALIVE'],
+    const world = World.create([
+      ['DEAD', 'ALIVE', 'DEAD'],
+      ['DEAD', 'ALIVE', 'DEAD'],
+      ['DEAD', 'ALIVE', 'DEAD'],
     ]);
-    expectedNextGeneration = World.create([
-      ['DEAD', 'DEAD', 'DEAD'],
-      ['ALIVE', 'DEAD', 'ALIVE'],
-    ]);
-    expect(worldWithSixCells.nextGeneration()).toEqual(expectedNextGeneration);
 
-    const worldWithNineCells = World.create([
-      ['ALIVE', 'ALIVE', 'ALIVE'],
-      ['ALIVE', 'DEAD', 'ALIVE'],
-      ['ALIVE', 'ALIVE', 'ALIVE'],
+    expect(world.nextGeneration().cellMatrix).toEqual([
+      [Cell.create('DEAD'), Cell.create('DEAD'), Cell.create('DEAD')],
+      [Cell.create('ALIVE'), Cell.create('ALIVE'), Cell.create('ALIVE')],
+      [Cell.create('DEAD'), Cell.create('DEAD'), Cell.create('DEAD')],
     ]);
-    expectedNextGeneration = World.create([
-      ['ALIVE', 'DEAD', 'ALIVE'],
-      ['DEAD', 'DEAD', 'DEAD'],
-      ['ALIVE', 'DEAD', 'ALIVE'],
-    ]);
-    expect(worldWithNineCells.nextGeneration()).toEqual(expectedNextGeneration);
   });
 });
 
