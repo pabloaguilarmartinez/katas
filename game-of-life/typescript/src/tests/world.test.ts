@@ -49,6 +49,21 @@ class World {
   }
 
   liveNeighboursAt(row: number, column: number): number {
-    return 0;
+    // Count the number of live neighbours for a given cell
+    let numberOfLiveNeighbours = 0;
+    for (let i = row - 1; i <= row + 1; i++) {
+      for (let j = column - 1; j <= column + 1; j++) {
+        if (i === row && j === column) {
+          continue;
+        }
+        if (i < 0 || j < 0 || i >= this.cellMatrix.length || j >= this.cellMatrix[i].length) {
+          continue;
+        }
+        if (this.cellMatrix[i][j].isAlive()) {
+          numberOfLiveNeighbours++;
+        }
+      }
+    }
+    return numberOfLiveNeighbours;
   }
 }
