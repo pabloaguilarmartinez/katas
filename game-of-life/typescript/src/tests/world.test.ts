@@ -65,6 +65,18 @@ describe('The World', () => {
       [Cell.create('ALIVE'), Cell.create('ALIVE'), Cell.create('ALIVE')],
       [Cell.create('DEAD'), Cell.create('DEAD'), Cell.create('DEAD')],
     ]);
+
+    const world2 = World.create([
+      ['ALIVE', 'ALIVE', 'ALIVE'],
+      ['ALIVE', 'DEAD', 'ALIVE'],
+      ['ALIVE', 'ALIVE', 'ALIVE'],
+    ]);
+
+    expect(world2.nextGeneration().cellMatrix).toEqual([
+      [Cell.create('ALIVE'), Cell.create('DEAD'), Cell.create('ALIVE')],
+      [Cell.create('DEAD'), Cell.create('DEAD'), Cell.create('DEAD')],
+      [Cell.create('ALIVE'), Cell.create('DEAD'), Cell.create('ALIVE')],
+    ]);
   });
 });
 
