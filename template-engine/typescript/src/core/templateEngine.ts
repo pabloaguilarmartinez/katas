@@ -1,12 +1,15 @@
 export function parseTemplate(templateText: string, variables: { [key: string]: string }): ParsedTemplate {
+  const warnings: TemplateWarning[] = [];
   ensureTemplateTextIsValid(templateText);
-  ensureTemplateTextVariablesAreInTheDictionary(templateText, variables);
 
   let parsedText = templateText;
   for (const key in variables) {
     parsedText = parsedText.replace(variableRegex(key), variables[key]);
+    if (!parsedText.includes(variables[key])) {
+      warnings.push(new TemplateWarning(`Variable ${key} not found in template`));
+    }
   }
-  return new ParsedTemplate(parsedText, []);
+  return new ParsedTemplate(parsedText, warnings);
 }
 
 function ensureTemplateTextIsValid(templateText: string) {
@@ -14,8 +17,6 @@ function ensureTemplateTextIsValid(templateText: string) {
     throw new MissingTemplateTextError();
   }
 }
-
-function ensureTemplateTextVariablesAreInTheDictionary(templateText: string, variables: { [key: string]: string }) {}
 
 function variableRegex(variableName: string): RegExp {
   return new RegExp(`\\$\\{${variableName}\\}`, 'g');
