@@ -72,7 +72,7 @@ describe('The Template Engine', () => {
 
       expect(parsedTemplate.containsWarnings()).toBeTruthy();
       expect(parsedTemplate.warnings[0].message).toBe('Variable variable could not be replaced');
-      expect(parsedTemplate.warnings[0].message).toBe('Variable anotherVariable could not be replaced');
+      expect(parsedTemplate.warnings[1].message).toBe('Variable anotherVariable could not be replaced');
     });
 
     it('warns about template text is null', () => {

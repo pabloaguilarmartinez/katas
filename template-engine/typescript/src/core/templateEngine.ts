@@ -9,6 +9,12 @@ export function parseTemplate(templateText: string, variables: { [key: string]: 
       warnings.push(new TemplateWarning(`Variable ${key} not found in template`));
     }
   }
+  const regex = /\$\{([a-zA-Z0-9-]+)}/g;
+  const matches = parsedText.match(regex);
+  matches?.forEach((match) => {
+    const variableName = match.substring(2, match.length - 1);
+    warnings.push(new TemplateWarning(`Variable ${variableName} could not be replaced`));
+  });
   return new ParsedTemplate(parsedText, warnings);
 }
 
@@ -25,12 +31,6 @@ function variableRegex(variableName: string): RegExp {
 export class MissingTemplateTextError extends Error {
   constructor() {
     super('Template text is missing');
-  }
-}
-
-export class MissingValueError extends Error {
-  constructor(variableName: string) {
-    super(`Variable ${variableName} value is missing`);
   }
 }
 
