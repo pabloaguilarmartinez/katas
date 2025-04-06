@@ -6,41 +6,39 @@
 */
 describe('The Template Engine', () => {
   it('parses template without variables', () => {
-    const template = 'This is a template with zero variables';
+    const templateText = 'This is a template with zero variables';
     const variables = {};
 
-    const result = templateEngine(template, variables);
+    const result = parseTemplate(templateText, variables);
 
-    expect(result).toBe(template);
+    expect(result).toBe(templateText);
   });
 
   it('parses template with one variable', () => {
-    const template = 'This is a template with a ${variable}';
+    const templateText = 'This is a template with a ${variable}';
     const variables = { variable: 'foo' };
     const expectedResult = 'This is a template with a foo';
 
-    const actualResult = templateEngine(template, variables);
+    const actualResult = parseTemplate(templateText, variables);
 
     expect(actualResult).toBe(expectedResult);
   });
 
   it('parses template with two variables', () => {
-    const template = 'This is a template with a ${variable} and ${anotherVariable}';
+    const templateText = 'This is a template with a ${variable} and ${anotherVariable}';
     const variables = { variable: 'foo', anotherVariable: 'bar' };
     const expectedResult = 'This is a template with a foo and bar';
 
-    const actualResult = templateEngine(template, variables);
+    const actualResult = parseTemplate(templateText, variables);
 
     expect(actualResult).toBe(expectedResult);
   });
 });
 
-function templateEngine(template: string, variables: { [key: string]: string }) {
-  let parsedTemplate = template;
-  for (const variable in variables) {
-    const regex = new RegExp(`\\$\\{${variable}\\}`, 'g');
-    parsedTemplate = parsedTemplate.replace(regex, variables[variable]);
+function parseTemplate(templateText: string, variables: { [key: string]: string }) {
+  let parsedText = templateText;
+  for (const key in variables) {
+    parsedText = parsedText.replace(`\$\{${key}\}`, variables[key]);
   }
-
-  return parsedTemplate;
+  return parsedText;
 }
