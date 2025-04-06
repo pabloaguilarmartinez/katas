@@ -10,7 +10,7 @@ Edge cases:
 - Non replaced variables
 - Null text & null dictionary
 */
-import { MissingTemplateTextError, parseTemplate } from '../core/templateEngine';
+import { parseTemplate } from '../core/templateEngine';
 
 describe('The Template Engine', () => {
   describe('Happy paths', () => {

@@ -1,37 +1,14 @@
 export function parseTemplate(templateText: string, variables: { [key: string]: string }): ParsedTemplate {
   const warnings: TemplateWarning[] = [];
-  ensureTemplateTextIsValid(templateText);
 
   let parsedText = templateText;
   for (const key in variables) {
-    parsedText = parsedText.replace(variableRegex(key), variables[key]);
-    if (!parsedText.includes(variables[key])) {
-      warnings.push(new TemplateWarning(`Variable ${key} not found in template`));
-    }
+    const value = variables[key];
+    parsedText = parsedText.replace(variableRegex(key), value);
+    checkIfVariableIsInTemplate(parsedText, value, key, warnings);
   }
-  const regex = /\$\{([a-zA-Z0-9-]+)}/g;
-  const matches = parsedText.match(regex);
-  matches?.forEach((match) => {
-    const variableName = match.substring(2, match.length - 1);
-    warnings.push(new TemplateWarning(`Variable ${variableName} could not be replaced`));
-  });
+  checkNotReplacedVariables(parsedText, warnings);
   return new ParsedTemplate(parsedText, warnings);
-}
-
-function ensureTemplateTextIsValid(templateText: string) {
-  if (!templateText) {
-    throw new MissingTemplateTextError();
-  }
-}
-
-function variableRegex(variableName: string): RegExp {
-  return new RegExp(`\\$\\{${variableName}\\}`, 'g');
-}
-
-export class MissingTemplateTextError extends Error {
-  constructor() {
-    super('Template text is missing');
-  }
 }
 
 export class TemplateWarning {
@@ -47,4 +24,23 @@ export class ParsedTemplate {
   containsWarnings(): boolean {
     return this.warnings.length > 0;
   }
+}
+
+function checkIfVariableIsInTemplate(parsedText: string, value: string, key: string, warnings: TemplateWarning[]) {
+  if (!parsedText.includes(value)) {
+    warnings.push(new TemplateWarning(`Variable ${key} not found in template`));
+  }
+}
+
+function checkNotReplacedVariables(parsedText: string, warnings: TemplateWarning[]) {
+  const regex = /\$\{([a-zA-Z0-9-]+)}/g;
+  const matches = parsedText.match(regex);
+  matches?.forEach((match) => {
+    const variableName = match.substring(2, match.length - 1);
+    warnings.push(new TemplateWarning(`Variable ${variableName} could not be replaced`));
+  });
+}
+
+function variableRegex(variableName: string): RegExp {
+  return new RegExp(`\\$\\{${variableName}\\}`, 'g');
 }
