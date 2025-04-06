@@ -48,7 +48,8 @@ describe('The Template Engine', () => {
 function parseTemplate(templateText: string, variables: { [key: string]: string }) {
   let parsedText = templateText;
   for (const key in variables) {
-    parsedText = parsedText.replace(`\$\{${key}\}`, variables[key]);
+    const regex = new RegExp(`\\$\\{${key}\\}`, 'g');
+    parsedText = parsedText.replace(regex, variables[key]);
   }
   return parsedText;
 }
