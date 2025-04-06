@@ -1,4 +1,5 @@
 export function parseTemplate(templateText: string, variables: { [key: string]: string }): ParsedTemplate {
+  if (!templateText) return new ParsedTemplate('', [new TemplateWarning('Template text is not defined')]);
   if (!variables) return new ParsedTemplate(templateText, [new TemplateWarning('Variables is not defined')]);
 
   const warnings: TemplateWarning[] = [];
