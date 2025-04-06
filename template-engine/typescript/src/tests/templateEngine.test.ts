@@ -86,11 +86,15 @@ describe('The Template Engine', () => {
       expect(parsedTemplate.warnings[0].message).toBe('Variables is not defined');
     });
 
-    it('warns about template text is null', () => {
-      const parsedTemplate = parseTemplate(null, {});
+    it('warns about template text is not defined', () => {
+      const templateText = null;
+      const variables = {};
 
+      const parsedTemplate = parseTemplate(templateText, variables);
+
+      expect(parsedTemplate.text).toBe('');
       expect(parsedTemplate.containsWarnings()).toBeTruthy();
-      expect(parsedTemplate.warnings[0].message).toBe('Variable anotherVariable not found in template');
+      expect(parsedTemplate.warnings[0].message).toBe('Template text is not defined');
     });
   });
 });
