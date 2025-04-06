@@ -13,6 +13,16 @@ describe('The Template Engine', () => {
 
     expect(result).toBe(template);
   });
+
+  it('parses template with one variable', () => {
+    const template = 'This is a template with a ${variable}';
+    const variables = { variable: 'foo' };
+    const expectedResult = 'This is a template with a foo';
+
+    const actualResult = templateEngine(template, variables);
+
+    expect(actualResult).toBe(expectedResult);
+  });
 });
 
 function templateEngine(template: string, variables: {}) {
