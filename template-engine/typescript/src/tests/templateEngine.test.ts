@@ -23,6 +23,16 @@ describe('The Template Engine', () => {
 
     expect(actualResult).toBe(expectedResult);
   });
+
+  it('parses template with two variables', () => {
+    const template = 'This is a template with a ${variable} and ${anotherVariable}';
+    const variables = { variable: 'foo', anotherVariable: 'bar' };
+    const expectedResult = 'This is a template with a foo and bar';
+
+    const actualResult = templateEngine(template, variables);
+
+    expect(actualResult).toBe(expectedResult);
+  });
 });
 
 function templateEngine(template: string, variables: { [key: string]: string }) {
