@@ -1,13 +1,16 @@
 export function parseTemplate(templateText: string, variables: { [key: string]: string }): ParsedTemplate {
-  const warnings: TemplateWarning[] = [];
+  if (!variables) return new ParsedTemplate(templateText, [new TemplateWarning('Variables is not defined')]);
 
+  const warnings: TemplateWarning[] = [];
   let parsedText = templateText;
+
   for (const key in variables) {
     const value = variables[key];
     parsedText = parsedText.replace(variableRegex(key), value);
     checkIfVariableIsInTemplate(parsedText, value, key, warnings);
   }
   checkNotReplacedVariables(parsedText, warnings);
+
   return new ParsedTemplate(parsedText, warnings);
 }
 
