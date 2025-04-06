@@ -10,7 +10,7 @@ Edge cases:
 - Non replaced variables
 - Null text & null dictionary
 */
-import { MissingTemplateTextError, MissingValueError, parseTemplate } from '../core/templateEngine';
+import { MissingTemplateTextError, parseTemplate } from '../core/templateEngine';
 
 describe('The Template Engine', () => {
   describe('Happy paths', () => {
@@ -26,31 +26,31 @@ describe('The Template Engine', () => {
     it('parses template with one variable', () => {
       const templateText = 'This is a template with a ${variable}';
       const variables = { variable: 'foo' };
-      const expectedResult = 'This is a template with a foo';
+      const expectedParsedText = 'This is a template with a foo';
 
-      const actualResult = parseTemplate(templateText, variables);
+      const parsedTemplate = parseTemplate(templateText, variables);
 
-      expect(actualResult.text).toBe(expectedResult);
+      expect(parsedTemplate.text).toBe(expectedParsedText);
     });
 
     it('parses template with two variables', () => {
       const templateText = 'This is a template with a ${variable} and ${anotherVariable}';
       const variables = { variable: 'foo', anotherVariable: 'bar' };
-      const expectedResult = 'This is a template with a foo and bar';
+      const expectedParsedText = 'This is a template with a foo and bar';
 
-      const actualResult = parseTemplate(templateText, variables);
+      const parsedTemplate = parseTemplate(templateText, variables);
 
-      expect(actualResult.text).toBe(expectedResult);
+      expect(parsedTemplate.text).toBe(expectedParsedText);
     });
 
     it('parses template with repeated variables', () => {
       const templateText = 'This is a template with a ${variable} and ${variable}';
       const variables = { variable: 'foo' };
-      const expectedResult = 'This is a template with a foo and foo';
+      const expectedParsedText = 'This is a template with a foo and foo';
 
-      const actualResult = parseTemplate(templateText, variables);
+      const parsedTemplate = parseTemplate(templateText, variables);
 
-      expect(actualResult.text).toBe(expectedResult);
+      expect(parsedTemplate.text).toBe(expectedParsedText);
     });
   });
 
@@ -67,7 +67,10 @@ describe('The Template Engine', () => {
       const templateText = 'This is a template with a ${variable}';
       const variables = { anotherVariable: 'bar' };
 
-      expect(() => parseTemplate(templateText, variables)).toThrow(new MissingValueError('variable'));
+      const parsedTemplate = parseTemplate(templateText, variables);
+
+      expect(parsedTemplate.containsWarnings()).toBeTruthy();
+      expect(parsedTemplate.warnings[0].message).toBe('Variable anotherVariable not found in template');
     });
   });
 });
