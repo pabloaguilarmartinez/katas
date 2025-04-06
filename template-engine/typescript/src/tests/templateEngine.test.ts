@@ -1,9 +1,17 @@
 /*
+Happy paths:
 'This is a template with zero variables' -> 'This is a template with zero variables'
 'This is a template with a ${variable}', {variable: 'foo'} -> 'This is a template with a foo'
 'This is a template with a ${variable} and ${anotherVariable}', {variable: 'foo', anotherVariable: 'bar'}
     -> 'This is a template with a foo and bar'
+
+Edge cases:
+- Variables not being found
+- Non replaced variables
+- Null text & null dictionary
 */
+import { parseTemplate } from '../core/templateEngine';
+
 describe('The Template Engine', () => {
   it('parses template without variables', () => {
     const templateText = 'This is a template with zero variables';
@@ -44,12 +52,3 @@ describe('The Template Engine', () => {
     expect(actualResult).toBe(expectedResult);
   });
 });
-
-function parseTemplate(templateText: string, variables: { [key: string]: string }) {
-  let parsedText = templateText;
-  for (const key in variables) {
-    const regex = new RegExp(`\\$\\{${key}\\}`, 'g');
-    parsedText = parsedText.replace(regex, variables[key]);
-  }
-  return parsedText;
-}
