@@ -10,7 +10,7 @@ Edge cases:
 - Non replaced variables
 - Null text & null dictionary
 */
-import { parseTemplate } from '../core/templateEngine';
+import { MissingTemplateTextError, MissingValueError, parseTemplate } from '../core/templateEngine';
 
 describe('The Template Engine', () => {
   describe('Happy paths', () => {
@@ -56,7 +56,18 @@ describe('The Template Engine', () => {
 
   describe('Edge cases', () => {
     it('does not parse template if it is null', () => {
-      expect(() => parseTemplate(null, {})).toThrow('Template text is null');
+      expect(() => parseTemplate(null, {})).toThrow(new MissingTemplateTextError());
+    });
+
+    it('does not parse template if it is undefined', () => {
+      expect(() => parseTemplate(undefined, {})).toThrow(new MissingTemplateTextError());
+    });
+
+    it('does not parse template if variables are not being found', () => {
+      const templateText = 'This is a template with a ${variable}';
+      const variables = { anotherVariable: 'bar' };
+
+      expect(() => parseTemplate(templateText, variables)).toThrow(new MissingValueError('variable'));
     });
   });
 });
