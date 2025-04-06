@@ -14,3 +14,7 @@ describe('The Template Engine', () => {
     expect(result).toBe(template);
   });
 });
+
+function templateEngine(template: string, variables: {}) {
+  return template;
+}
