@@ -55,19 +55,28 @@ describe('The Template Engine', () => {
   });
 
   describe('Edge cases', () => {
-    it('does not parse template if it is null', () => {
-      expect(() => parseTemplate(null, {})).toThrow(new MissingTemplateTextError());
-    });
-
-    it('does not parse template if it is undefined', () => {
-      expect(() => parseTemplate(undefined, {})).toThrow(new MissingTemplateTextError());
-    });
-
     it('warns about variables not being found', () => {
       const templateText = 'This is a template with a ${variable}';
       const variables = { anotherVariable: 'bar' };
 
       const parsedTemplate = parseTemplate(templateText, variables);
+
+      expect(parsedTemplate.containsWarnings()).toBeTruthy();
+      expect(parsedTemplate.warnings[0].message).toBe('Variable anotherVariable not found in template');
+    });
+
+    it('warns about no replaced variables', () => {
+      const templateText = 'This is a template with a ${variable} ${anotherVariable}';
+
+      const parsedTemplate = parseTemplate(templateText, {});
+
+      expect(parsedTemplate.containsWarnings()).toBeTruthy();
+      expect(parsedTemplate.warnings[0].message).toBe('Variable variable could not be replaced');
+      expect(parsedTemplate.warnings[0].message).toBe('Variable anotherVariable could not be replaced');
+    });
+
+    it('warns about template text is null', () => {
+      const parsedTemplate = parseTemplate(null, {});
 
       expect(parsedTemplate.containsWarnings()).toBeTruthy();
       expect(parsedTemplate.warnings[0].message).toBe('Variable anotherVariable not found in template');
