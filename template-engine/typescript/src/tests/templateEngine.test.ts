@@ -63,7 +63,7 @@ describe('The Template Engine', () => {
       expect(() => parseTemplate(undefined, {})).toThrow(new MissingTemplateTextError());
     });
 
-    it('does not parse template if variables are not being found', () => {
+    it('warns about variables not being found', () => {
       const templateText = 'This is a template with a ${variable}';
       const variables = { anotherVariable: 'bar' };
 
