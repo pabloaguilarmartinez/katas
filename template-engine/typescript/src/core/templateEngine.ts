@@ -1,4 +1,4 @@
-export function parseTemplate(templateText: string, variables: { [key: string]: string }) {
+export function parseTemplate(templateText: string, variables: { [key: string]: string }): ParsedTemplate {
   ensureTemplateTextIsValid(templateText);
   ensureTemplateTextVariablesAreInTheDictionary(templateText, variables);
 
@@ -6,7 +6,7 @@ export function parseTemplate(templateText: string, variables: { [key: string]: 
   for (const key in variables) {
     parsedText = parsedText.replace(variableRegex(key), variables[key]);
   }
-  return parsedText;
+  return new ParsedTemplate(parsedText, []);
 }
 
 function ensureTemplateTextIsValid(templateText: string) {
@@ -30,5 +30,20 @@ export class MissingTemplateTextError extends Error {
 export class MissingValueError extends Error {
   constructor(variableName: string) {
     super(`Variable ${variableName} value is missing`);
+  }
+}
+
+export class TemplateWarning {
+  constructor(readonly message: string) {}
+}
+
+export class ParsedTemplate {
+  constructor(
+    readonly text: string,
+    readonly warnings: ReadonlyArray<TemplateWarning>
+  ) {}
+
+  containsWarnings(): boolean {
+    return this.warnings.length > 0;
   }
 }

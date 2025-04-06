@@ -20,7 +20,7 @@ describe('The Template Engine', () => {
 
       const result = parseTemplate(templateText, variables);
 
-      expect(result).toBe(templateText);
+      expect(result.text).toBe(templateText);
     });
 
     it('parses template with one variable', () => {
@@ -30,7 +30,7 @@ describe('The Template Engine', () => {
 
       const actualResult = parseTemplate(templateText, variables);
 
-      expect(actualResult).toBe(expectedResult);
+      expect(actualResult.text).toBe(expectedResult);
     });
 
     it('parses template with two variables', () => {
@@ -40,7 +40,7 @@ describe('The Template Engine', () => {
 
       const actualResult = parseTemplate(templateText, variables);
 
-      expect(actualResult).toBe(expectedResult);
+      expect(actualResult.text).toBe(expectedResult);
     });
 
     it('parses template with repeated variables', () => {
@@ -50,7 +50,7 @@ describe('The Template Engine', () => {
 
       const actualResult = parseTemplate(templateText, variables);
 
-      expect(actualResult).toBe(expectedResult);
+      expect(actualResult.text).toBe(expectedResult);
     });
   });
 
