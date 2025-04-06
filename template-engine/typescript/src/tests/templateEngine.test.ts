@@ -33,6 +33,16 @@ describe('The Template Engine', () => {
 
     expect(actualResult).toBe(expectedResult);
   });
+
+  it('parses template with repeated variables', () => {
+    const templateText = 'This is a template with a ${variable} and ${variable}';
+    const variables = { variable: 'foo' };
+    const expectedResult = 'This is a template with a foo and foo';
+
+    const actualResult = parseTemplate(templateText, variables);
+
+    expect(actualResult).toBe(expectedResult);
+  });
 });
 
 function parseTemplate(templateText: string, variables: { [key: string]: string }) {
