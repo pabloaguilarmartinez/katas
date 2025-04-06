@@ -75,6 +75,17 @@ describe('The Template Engine', () => {
       expect(parsedTemplate.warnings[1].message).toBe('Variable anotherVariable could not be replaced');
     });
 
+    it('warns about null dictionary', () => {
+      const templateText = 'text';
+      const variables = null;
+
+      const parsedTemplate = parseTemplate('text', variables);
+
+      expect(parsedTemplate.text).toBe(templateText);
+      expect(parsedTemplate.containsWarnings()).toBeTruthy();
+      expect(parsedTemplate.warnings[0].message).toBe('Variables is not defined');
+    });
+
     it('warns about template text is null', () => {
       const parsedTemplate = parseTemplate(null, {});
 
