@@ -1,3 +1,5 @@
+// TODO: this function could be a class TemplateEngine with a method parse and we could use a factory to create it
+// and we could use a better value object approach for ParsedTemplate to add warnings
 export function parseTemplate(templateText: string, variables: { [key: string]: string }): ParsedTemplate {
   if (!templateText) return new ParsedTemplate('', [new TemplateWarning('Template text is not defined')]);
   if (!variables) return new ParsedTemplate(templateText, [new TemplateWarning('Variables is not defined')]);
