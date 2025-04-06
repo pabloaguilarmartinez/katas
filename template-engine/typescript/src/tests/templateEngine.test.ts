@@ -25,6 +25,12 @@ describe('The Template Engine', () => {
   });
 });
 
-function templateEngine(template: string, variables: {}) {
-  return template;
+function templateEngine(template: string, variables: { [key: string]: string }) {
+  let parsedTemplate = template;
+  for (const variable in variables) {
+    const regex = new RegExp(`\\$\\{${variable}\\}`, 'g');
+    parsedTemplate = parsedTemplate.replace(regex, variables[variable]);
+  }
+
+  return parsedTemplate;
 }
